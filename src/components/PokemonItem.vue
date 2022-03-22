@@ -1,5 +1,5 @@
 <template>
-  <div class="card">
+  <div class="card m-4">
     <div class="card-body">
       <div class="text-center">
         <h2 class="card-title">{{ pokemon.name }}</h2>
@@ -30,7 +30,7 @@ export default {
 <style>
 .card {
   height: 370px;
-  margin: 1rem;
+  /* margin: 1rem; */
   border-radius: 5%;
   box-shadow: 2px 2px 2px 1px rgba(0, 0, 0, 0.3);
 }
