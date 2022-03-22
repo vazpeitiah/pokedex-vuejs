@@ -10,7 +10,7 @@
       <div class="modal-dialog modal-lg">
         <div class="modal-content">
           <div class="modal-header">
-            <h2 class="modal-title">Tarjeta Pokemon</h2>
+            <h5 class="modal-title fw-bold">Tarjeta Pokemon</h5>
             <button
               type="button"
               class="btn-close"
@@ -20,55 +20,77 @@
           </div>
           <div class="modal-body p-4">
             <div class="row">
-              <div class="col-md-6 rounded" style="background: #eee">
+              <div class="col-md-5 rounded" style="background: #eee">
                 <img
                   v-bind:src="pokemon.sprites && pokemon.sprites.other['official-artwork'].front_default"
                   class="img-fluid"
                 />
               </div>
-              <div class="col-md-6 text-start">
-                <h2 id="poke-name">{{ pokemon.name }}</h2>
-                <h5 id="poke-id">N.° {{ pokemon.id }}</h5>
-                <p>{{pokemon.specie ? pokemon.specie.flavor_text_entries[1].flavor_text : ''}}</p>
-                <div id="info-poke" v-bind:class="pokemon.types && pokemon.types[0].type.name" >
-                  <p><b>Altura:</b> {{ pokemon.height }}</p>
-                  <p><b>Peso:</b> {{ pokemon.weight }}</p>
-                  <p><b>Experiencia base:</b> {{ pokemon.base_experience }}</p>
-                  <p><b>Orden:</b> {{ pokemon.order }}</p>
-                </div>
-                <h3>Tipo</h3>
-                <div id="poke-types" class="d-flex">
-                  <span v-for="type in pokemon.types" :key="type.slot" class="border" v-bind:class="type.type.name">
+              <div class="col-md-7 text-start">
+                <h4 id="poke-name" class="fw-bolder">{{ pokemon.name }}</h4>
+                <div class="d-flex justify-content-start">
+                  <h6 id="poke-id" class="me-2">N.° {{ pokemon.id }}</h6>
+                  <span v-for="type in pokemon.types" :key="type.slot" class="border rounded p-1 me-2" v-bind:class="type.type.name">
                     {{ type.type.name }}
                   </span>
                 </div>
+                
+                <p>{{pokemon.specie ? pokemon.specie.flavor_text_entries[1].flavor_text : ''}}</p>
+                <div id="info-poke" v-bind:class="pokemon.types && pokemon.types[0].type.name" >
+                  <p><b>Altura:</b> {{ pokemon.height }} m</p>
+                  <p><b>Peso:</b> {{ pokemon.weight }} kg</p>
+                  <p><b>Experiencia base:</b> {{ pokemon.base_experience }}</p>
+                  <p><b>Orden:</b> {{ pokemon.order }}</p>
+                </div>
               </div>
             </div>
-            <h3>Evoluciones</h3>
-            <div id="evolutions" class="row">
-              <div class="col-md-4 border bg-secondary">
-                <p>{{pokemon.evolution_chain ? pokemon.evolution_chain.chain.species.name : ''}}</p>
-                <img src="" alt="" class="img-fluid"/>
+            <h5 class="fw-bold mt-2">Estadísticas</h5>
+            <hr/>
+            <div class="row mt-2">
+              <div v-for="(stat, index) in pokemon.stats" :key="index" class="col-md-6">
+                <div class="d-flex justify-content-between">
+                  <span>{{stat.stat.name}}</span>
+                  <span>{{stat.base_stat}}</span>
+                </div>
+                <div class="progress mb-2">
+                  <div class="progress-bar"
+                      v-bind:class="pokemon.types[0].type.name" 
+                      role="progressbar" 
+                      v-bind:style="`width: ${stat.base_stat}%;`" 
+                      v-bind:aria-valuenow="stat.base_stat" 
+                      aria-valuemin="0" 
+                      aria-valuemax="100">
+                  </div>
+                </div>
               </div>
-              <div class="col-md-4 border bg-secondary">
+            </div>
+
+            <h5 class="fw-bold mt-2">Evoluciones</h5>
+            <hr/>
+            <div id="evolutions" class="row">
+              <div class="col-md-4">
+                <p>{{pokemon.evolution_chain ? pokemon.evolution_chain.chain.species.name : ''}}</p>
+                <img v-bind:src="pokemon.sprites && pokemon.sprites.back_default" alt="" class="img-fluid"/>
+              </div>
+              <div class="col-md-4">
                 <p>
                   {{ (pokemon.evolution_chain && pokemon.evolution_chain.chain.evolves_to.length > 0) ?  
                     pokemon.evolution_chain.chain.evolves_to[0].species.name : ''
                   }}
                 </p>
-                <img src="" alt="" class="img-fluid"/>
+                <img v-bind:src="pokemon.sprites && pokemon.sprites.front_default" alt="" class="img-fluid"/>
               </div>
-              <div class="col-md-4 border bg-secondary">
+              <div class="col-md-4">
                 <p>
                   {{ (pokemon.evolution_chain && pokemon.evolution_chain.chain.evolves_to.length > 0 && pokemon.evolution_chain.chain.evolves_to[0].evolves_to.length > 0) ?  
                     pokemon.evolution_chain.chain.evolves_to[0].evolves_to[0].species.name : ''
                   }}
                 </p>
-                <img src="" alt="" class="img-fluid"/>
+                <img v-bind:src="pokemon.sprites && pokemon.sprites.front_shiny" alt="" class="img-fluid"/>
               </div>
             </div>
           </div>
-          <div class="modal-footer">
+         <!--  <div class="modal-footer">
             <button
               type="button"
               class="btn btn-secondary"
@@ -76,8 +98,7 @@
             >
               Close
             </button>
-            <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
-          </div>
+          </div> -->
         </div>
       </div>
     </div>
@@ -103,8 +124,8 @@ export default {
   grid-template-columns: 1fr 1fr;
   /* background-color: #5b7db1; */
   border-radius: 15px;
-  padding: 1rem;
-  font-weight: bold;
+  padding: 1rem;  
+ /*  font-weight: bold; */
 }
 
 #info-poke p b {
@@ -121,24 +142,20 @@ export default {
   color: #ccc;
 }
 
-#poke-types {
-  font-size: 1rem;
-  text-transform: lowercase;
-}
-
-#poke-types span {
-  padding: 5px;
-  border-radius: 10px;
-  margin-right: 5px;
-}
-
 #evolutions p {
-  color: #fff;
+  color: #000;
   text-transform: uppercase;
 }
 
 #evolutions .col-md-4 {
-  padding: 0.6rem;
+  padding: 0.8rem;
+  text-align: center;
+  /* background-color: #eeeeee; */
+}
+
+#evolutions img {
+  border-radius: 50%;
+  border: 1px solid black;
 }
 
 .grass {
