@@ -70,7 +70,7 @@
             <div id="evolutions" class="row">
               <div class="col-md-4">
                 <p>{{pokemon.evolution_chain ? pokemon.evolution_chain.chain.species.name : ''}}</p>
-                <img v-bind:src="pokemon.sprites && pokemon.sprites.back_default" alt="" class="img-fluid"/>
+                <img v-bind:src="pokemon.evolution_sprites && pokemon.evolution_sprites[0]" alt="" class="img-fluid"/>
               </div>
               <div class="col-md-4">
                 <p>
@@ -78,7 +78,7 @@
                     pokemon.evolution_chain.chain.evolves_to[0].species.name : ''
                   }}
                 </p>
-                <img v-bind:src="pokemon.sprites && pokemon.sprites.front_default" alt="" class="img-fluid"/>
+                <img v-bind:src="pokemon.evolution_sprites && pokemon.evolution_sprites[1]" alt="" class="img-fluid"/>
               </div>
               <div class="col-md-4">
                 <p>
@@ -86,19 +86,10 @@
                     pokemon.evolution_chain.chain.evolves_to[0].evolves_to[0].species.name : ''
                   }}
                 </p>
-                <img v-bind:src="pokemon.sprites && pokemon.sprites.front_shiny" alt="" class="img-fluid"/>
+                <img v-bind:src="pokemon.evolution_sprites && pokemon.evolution_sprites[2]" alt="" class="img-fluid"/>
               </div>
             </div>
           </div>
-         <!--  <div class="modal-footer">
-            <button
-              type="button"
-              class="btn btn-secondary"
-              data-bs-dismiss="modal"
-            >
-              Close
-            </button>
-          </div> -->
         </div>
       </div>
     </div>
@@ -108,8 +99,7 @@
 <script>
 export default {
   name: "ModalComponent",
-  props: ["pokemon"],
-
+  props: ["pokemon"]
 };
 </script>
 

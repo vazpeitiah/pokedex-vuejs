@@ -62,7 +62,25 @@
                   return res4.json()
                 })
                 .then((ev) => {
+                  const evPokes = []
+                  const evolution_sprites = []
+                  evPokes.push(ev.chain.species.name)
+                  if(ev.chain.evolves_to.length > 0) {
+                    evPokes.push(ev.chain.evolves_to[0].species.name)
+                    if(ev.chain.evolves_to[0].evolves_to.length > 0){
+                      evPokes.push(ev.chain.evolves_to[0].evolves_to[0].species.name)
+                    }
+                  }
+                  evPokes.forEach(pok => {
+                    fetch('https://pokeapi.co/api/v2/pokemon/' + pok).then(res => {
+                      return res.json()
+                    }).then((pok2) => {
+                      evolution_sprites.push(pok2.sprites.front_default)
+                    })
+                  });
+
                   poke = {...poke, evolution_chain: ev}
+                  poke = {...poke, evolution_sprites}
                   this.pokemonList.push(poke)
                   this.copyPokemons.push(poke)
                 })
