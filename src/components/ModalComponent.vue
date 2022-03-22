@@ -59,7 +59,7 @@
                       v-bind:style="`width: ${stat.base_stat}%;`" 
                       v-bind:aria-valuenow="stat.base_stat" 
                       aria-valuemin="0" 
-                      aria-valuemax="100">
+                      aria-valuemax="150">
                   </div>
                 </div>
               </div>
